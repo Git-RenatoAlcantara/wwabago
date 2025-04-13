@@ -3,50 +3,45 @@ package wwabago
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 )
 
 func SendTextMessage(wwaba *Wwaba, msg *MessageConfig) (string, error) {
-	message, err := json.MarshalIndent(msg, "", " ")
-
-	if err != nil {
-		return "", fmt.Errorf("failed to marshal message: %w", err)
-	}
-
-	buff := bytes.NewBuffer(message)
-
-	graphApi := fmt.Sprintf(GraphBaseAPI,  wwaba.PhoneID, "messages")
 	
-	authorization := fmt.Sprintf("Bearer %s", wwaba.Authorization)
-
-	// implement the logic to send the message
-	resp, err := http.NewRequest(http.MethodPost, graphApi, buff)
+	message, err := json.Marshal(msg)
 	if err != nil {
 		return "", err
 	}
 
-	resp.Header.Add("Content-Type", "application/json")
-	resp.Header.Add("Authorization", authorization)
+	graphApi := fmt.Sprintf(GraphBaseAPI, wwaba.PhoneID, "messages")
+	authorization := fmt.Sprintf("Bearer %s", wwaba.Authorization)
 
-
-	response, err := http.DefaultClient.Do(resp)
-
-	
-	//Handle Error
+	req, err := http.NewRequest(http.MethodPost, graphApi, bytes.NewBuffer(message))
 	if err != nil {
-		return "", fmt.Errorf("%v", err)
+		return "", err
 	}
-	defer response.Body.Close()
-	//Read the response body
-	body, err := io.ReadAll(response.Body)
-	if err != nil {
-		return "", fmt.Errorf("%v", err)
-	}
-	sb := string(body)
-	log.Println(sb)
-	log.Printf("Status: %d", response.StatusCode)
 
-	return "", nil
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", authorization)
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		body, _ := io.ReadAll(resp.Body)
+		return "", errors.New(string(body))
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return string(body), nil
 }
