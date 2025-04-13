@@ -4,5 +4,5 @@ const (
 	GraphBaseAPI = "https://graph.facebook.com/v22.0/%s/%s"
 )
 const (
-	logcredentialserror = "Error: whatsapp credentials cannot be empty"
+	logcredentialserror = "whatsapp credentials cannot be empty"
 )

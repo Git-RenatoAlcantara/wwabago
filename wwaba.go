@@ -1,6 +1,8 @@
 package wwabago
 
-import "errors"
+import (
+	"errors"
+)
 
 
 type Wwaba struct {
@@ -16,7 +18,7 @@ func  NewWwaba(authorization, phoneID string) (*Wwaba, error){
 
 func CreateWwaba(authorization, phoneID string) (*Wwaba, error){
 	if authorization == "" || phoneID == ""{
-		log.Println(logCredentialsError)
+		return nil, errors.New(logcredentialserror)
 	}
 	wwaba := &Wwaba{
 		Authorization: authorization,
