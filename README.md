@@ -12,7 +12,7 @@ A lightweight and easy-to-use Go library for sending and receiving messages usin
 ## 📦 Installation
 
 ```bash
-go get github.com/your-username/your-whatsapp-lib
+	go get github.com/Git-RenatoAlcantara/wwabago
 ```
 
 ## Send text message
