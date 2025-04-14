@@ -14,3 +14,13 @@ type MessageConfig struct {
 	Type             string   `json:"type"`
 	BaseChat         BaseConfig `json:"text,omitempty"`
 }
+
+type WhatsappMessageError struct {
+	Error struct {
+		Message      string `json:"message"`
+		Type         string `json:"type"`
+		Code         int    `json:"code"`
+		ErrorSubcode int    `json:"error_subcode"`
+		FbtraceID    string `json:"fbtrace_id"`
+	} `json:"error"`
+}

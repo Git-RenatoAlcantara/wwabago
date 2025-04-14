@@ -3,11 +3,11 @@ package wwabago
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
 )
+
 
 func SendTextMessage(wwaba *Wwaba, msg *MessageConfig) (string, error) {
 	
@@ -21,6 +21,7 @@ func SendTextMessage(wwaba *Wwaba, msg *MessageConfig) (string, error) {
 
 	req, err := http.NewRequest(http.MethodPost, graphApi, bytes.NewBuffer(message))
 	if err != nil {
+		fmt.Print("25")
 		return "", err
 	}
 
@@ -33,9 +34,19 @@ func SendTextMessage(wwaba *Wwaba, msg *MessageConfig) (string, error) {
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		body, _ := io.ReadAll(resp.Body)
-		return "", errors.New(string(body))
+	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			log.Printf("failed to read response body: %v", err)
+			return "", fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+		}
+
+		var wppMessageError WhatsappMessageError
+		if err := json.Unmarshal(body, &wppMessageError); err != nil {
+			return "", fmt.Errorf("unexpected status code: %d, response: %s", resp.StatusCode, string(body))
+		}
+
+		return "", fmt.Errorf("error from API: %s", wppMessageError.Error.Message)
 	}
 
 	body, err := io.ReadAll(resp.Body)
@@ -45,3 +56,4 @@ func SendTextMessage(wwaba *Wwaba, msg *MessageConfig) (string, error) {
 
 	return string(body), nil
 }
+

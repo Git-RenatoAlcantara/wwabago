@@ -34,6 +34,7 @@ func (wwaba *Wwaba) Send(messageBase interface{}) (string, error) {
 	switch msg := messageBase.(type) {
 	case MessageConfig:
 		return SendTextMessage(wwaba, &msg)
+	
 	default:
 		return "", errors.New("unsupported message type")
 	}
