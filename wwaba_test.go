@@ -5,8 +5,8 @@ import (
 )
 
 const (
-	TestAuthentication = "EAAH36KWr86sBO3SFL2LNebrFRrhAiavvNkCbmZBrJqR1hvjnKTPo4IFUYex15uUsgUeqjUsJi37lTEwg2yGSexFAIIDfrT9JHc0cvpDJcZAGXnsuHIV9ZAN1ofd4yM2QSJmitfXpZCLYBWSsaGE53PTEP8oYA46ZAk0xAioPFQbgI6paUvjIbF2gbJlZBquoJLcVRVlJ0Kk8EKiTawjmoipE3jiNpoowZDZD"
-	TestePhoneID = "495746173617776"
+	TestAuthentication = ""
+	TestePhoneID = ""
 )
 
 type testLogger struct {
@@ -50,7 +50,7 @@ func TestCreateWwaba_noCredentials(t *testing.T){
 func TestSendWithMessage(t *testing.T) {
 	wwaba, _ := getClient(t)
 
-	msg := NewMessage("5521967056425", "Mensagem de teste")
+	msg := NewMessage("+00(00)00000-0000", "Mensagem de teste")
 	_, err := wwaba.Send(msg)
 	if err != nil {
 		t.Error(err)
@@ -62,7 +62,7 @@ func TestSendMessageWithImageFromPath(t *testing.T){
 	wwaba, _ := getClient(t)
 
 	msg := NewImageMessage(
-		"5521967056425",
+		"+00(00)00000-0000",
 		"./image/node-js.png",
 		"Image de Gravação",
 	)
