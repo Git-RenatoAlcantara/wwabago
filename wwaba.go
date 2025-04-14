@@ -29,13 +29,14 @@ func CreateWwaba(authorization, phoneID string) (*Wwaba, error){
 }
 
 
-func (wwaba *Wwaba) Send(messageBase interface{}) (string, error) {
+func (wwaba *Wwaba) Send(messageBase interface{}) (*WhatsappMessageSuccess, error) {
 
 	switch msg := messageBase.(type) {
-	case MessageConfig:
+	case TextMessage:
 		return SendTextMessage(wwaba, &msg)
-	
+	case ImageMessage:
+		return SendImageMessage(wwaba, &msg)
 	default:
-		return "", errors.New("unsupported message type")
+		return nil, errors.New("unsupported message type")
 	}
 }

@@ -58,4 +58,19 @@ func TestSendWithMessage(t *testing.T) {
 
 }
 
+func TestSendMessageWithImageFromPath(t *testing.T){
+	wwaba, _ := getClient(t)
+
+	msg := NewImageMessage(
+		"5521967056425",
+		"./image/node-js.png",
+		"Image de Gravação",
+	)
+
+	_, err := wwaba.Send(msg)
+	if err != nil {
+		t.Error(err)
+	}
+}
+
 
