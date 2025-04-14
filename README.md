@@ -15,6 +15,7 @@ A lightweight and easy-to-use Go library for sending and receiving messages usin
 go get github.com/your-username/your-whatsapp-lib
 ```
 
+## Send text message
 ```go
 package main
 
@@ -38,6 +39,32 @@ func main(){
 
 }
 ```
+## Send image message
 
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	wwabago "github.com/Git-RenatoAlcantara/wwabago"
+)
+
+
+func main(){
+	msg := wwabago.NewImageMessage(
+		"+00(00)00000-0000",
+		"/user/folder/image.png",
+		"Image from path",
+	)
+
+	_, err = wwaba.Send(msg)
+	if err != nil{
+		fmt.Printf("%v",err)
+	}
+}
+
+```
 
 
