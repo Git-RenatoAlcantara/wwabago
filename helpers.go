@@ -80,7 +80,7 @@ func ReadResponseBody(response *http.Response) ([]byte, error) {
 	return body, nil
 }
 
-func UploadWabaFile(w *Wwaba, contentType string, body io.Reader) *ImageResponse{
+func UploadWabaFile(w *Wwaba, contentType string, body io.Reader) *MediaResponse{
 
 
 	graphApi := fmt.Sprintf(GraphBaseAPI, w.PhoneID, "media")
@@ -116,12 +116,12 @@ func UploadWabaFile(w *Wwaba, contentType string, body io.Reader) *ImageResponse
    
 	
 
-   imageResponse := ImageResponse{}
-   err = json.Unmarshal(responseBody, &imageResponse)
+   mediaResponse := MediaResponse{}
+   err = json.Unmarshal(responseBody, &mediaResponse)
    if err != nil {
 	fmt.Printf("%v",err)
    }
 
 
-   return &imageResponse
+   return &mediaResponse
 }

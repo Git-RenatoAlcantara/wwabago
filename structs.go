@@ -40,19 +40,29 @@ type ImageMessage struct {
 	To               string   `json:"to"`
 	Type             string   `json:"type"`
 	File             *FileConfig    `json:"file,omitempty"`
-	Image            *ImageInfo   `json:"image,omitempty"`
+	Image            *MediaInfo   `json:"image,omitempty"`
+}
+
+
+type VideoMessage struct {
+	MessagingProduct string   `json:"messaging_product"`
+	RecipientType    string   `json:"recipient_type"`
+	To               string   `json:"to"`
+	Type             string   `json:"type"`
+	File             *FileConfig    `json:"file,omitempty"`
+	Video            *MediaInfo   `json:"video,omitempty"`
 }
 
 
 
 // image represents an image to be sent.
-type ImageInfo struct {
+type MediaInfo struct {
 	Id      string `json:"id"`
 	Caption string `json:"caption"`
 }
 
 // ImageResponse represents the response structure for an image.
-type ImageResponse struct {
+type MediaResponse struct {
 	ID string `json:"id"`
 }
 

@@ -1,6 +1,7 @@
 package wwabago
 
 import (
+	"context"
 	"errors"
 )
 
@@ -29,13 +30,15 @@ func CreateWwaba(authorization, phoneID string) (*Wwaba, error){
 }
 
 
-func (wwaba *Wwaba) Send(messageBase interface{}) (*WhatsappMessageSuccess, error) {
+func (wwaba *Wwaba) Send(ctx context.Context, messageBase interface{}) (*WhatsappMessageSuccess, error) {
 
 	switch msg := messageBase.(type) {
 	case TextMessage:
-		return SendTextMessage(wwaba, &msg)
+		return SendTextMessage(ctx, wwaba, &msg)
 	case ImageMessage:
 		return SendImageMessage(wwaba, &msg)
+	case VideoMessage:
+		return SendVideoMessage(wwaba, &msg)
 	default:
 		return nil, errors.New("unsupported message type")
 	}
